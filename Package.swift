@@ -27,15 +27,24 @@ import PackageDescription
 
 let package = Package(
     name: "Alamofire",
+    platforms: [.macOS(.v10_13),
+              .iOS(.v11),
+              .tvOS(.v11),
+              .watchOS(.v4)],
     products: [
         .library(
             name: "Alamofire",
             targets: ["Alamofire"])
     ],
     targets: [
-        .target(
-            name: "Alamofire",
-            path: "Source")
+        .target(name: "Alamofire",
+            path: "Source",
+            exclude: ["Info.plist"],
+            linkerSettings: [.linkedFramework("CFNetwork",
+                                              .when(platforms: [.iOS,
+                                                                .macOS,
+                                                                .tvOS,
+                                                                .watchOS]))])
     ],
     swiftLanguageVersions: [.v4, .v5]
 )
